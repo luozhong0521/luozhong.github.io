@@ -1,2 +1,238 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="http://localhost:4000/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2016-12-29T15:17:38+08:00</updated><id>http://localhost:4000//</id><title type="html">luozhong’s blog</title><subtitle>...
-</subtitle></feed>
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="http://localhost:4000/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2016-12-29T15:23:18+08:00</updated><id>http://localhost:4000//</id><title type="html">luozhong’s blog</title><subtitle>...
+</subtitle><entry><title type="html">社区react native iOS 端常见问题与解决方案</title><link href="http://localhost:4000/jekyll/update/2016/12/29/lovemoment.html" rel="alternate" type="text/html" title="社区react native iOS 端常见问题与解决方案" /><published>2016-12-29T11:36:34+08:00</published><updated>2016-12-29T11:36:34+08:00</updated><id>http://localhost:4000/jekyll/update/2016/12/29/lovemoment</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2016/12/29/lovemoment.html">&lt;h3 id=&quot;一搭建环境&quot;&gt;一、搭建环境&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;http://reactnative.cn/&quot;&gt;参考地址-中文&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://facebook.github.io/react-native/&quot;&gt;参考地址-官网&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;需要资源&quot;&gt;需要资源&lt;/h4&gt;
+
+&lt;p&gt;硬件&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mac 电脑 ##### 软件
+
+xcode 	
+nodejs
+Homebrew //Mac系统的包管理器，用于安装NodeJS和一些其他必需的工具软件。
+Yarn	//React Native的命令行工具（react-native-cli）
+Watchman	//由Facebook提供的监视文件系统变更的工具。安装此工具可以提高开发时的性能（packager可以快速捕捉文件的变化从而实现实时刷新）。
+Flow	//静态的JS类型检查工具
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;安装环境&quot;&gt;安装环境&lt;/h4&gt;
+
+&lt;h5 id=&quot;安装homebrew&quot;&gt;安装Homebrew&lt;/h5&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;在Max OS X 10.11（El Capitan)版本中，homebrew在安装软件时可能会碰到/usr/local目录不可写的权限问题。可以使用下面的命令修复：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo chown -R `whoami` /usr/local
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h5 id=&quot;配置node源&quot;&gt;配置node源&lt;/h5&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;npm config set registry https://registry.npm.taobao.org --global
+npm config set disturl https://npm.taobao.org/dist --global
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h5 id=&quot;安装yarn&quot;&gt;安装Yarn&lt;/h5&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;npm install -g yarn react-native-cli
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;如果你看到&lt;code class=&quot;highlighter-rouge&quot;&gt;EACCES: permission denied&lt;/code&gt;这样的权限报错，那么请参照上文的homebrew译注，修复/usr/local目录的所有权：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo chown -R `whoami` /usr/local
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h5 id=&quot;安装xcode&quot;&gt;安装xcode&lt;/h5&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/xcode/&quot;&gt;下载xcode&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;下载完成后执行默认安装即可&lt;/p&gt;
+
+&lt;h5 id=&quot;安装watchman&quot;&gt;安装Watchman&lt;/h5&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;brew install watchman
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h5 id=&quot;安装flow&quot;&gt;安装Flow&lt;/h5&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;brew install flow
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;二新建工程&quot;&gt;二、新建工程&lt;/h3&gt;
+
+&lt;p&gt;在目标文件夹中输入命令，初次执行此命令时间稍长&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;react-native init AwesomeProject //初始化一个名为 AwesomeProject 的项目
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;模拟器运行项目&quot;&gt;模拟器运行项目&lt;/h3&gt;
+
+&lt;h5 id=&quot;启动项目两种方式&quot;&gt;启动项目（两种方式）&lt;/h5&gt;
+
+&lt;p&gt;1、命令启动方式进入项目目录执行  &lt;code class=&quot;highlighter-rouge&quot;&gt;react-native run-ios&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd AwesomeProject &amp;amp;&amp;amp; react-native run-ios
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;2、xcode启动项目&lt;/p&gt;
+
+&lt;p&gt;双击打开工程目录下 &lt;code class=&quot;highlighter-rouge&quot;&gt;ios/AwesomeProject.xcodeproj&lt;/code&gt;文件，这个文件是iOS工程文件。&lt;/p&gt;
+
+&lt;p&gt;功能简介：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;🔨图标表示运行设备，模拟器或者真机，需要手动选择（目前只能选择模拟器）&lt;/li&gt;
+  &lt;li&gt;左上角三角形&lt;code class=&quot;highlighter-rouge&quot;&gt;run&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;黑色正方形：停止run&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;选择一个模拟器&lt;/p&gt;
+
+&lt;p&gt;点击黑色三角形即可运行项目&lt;/p&gt;
+
+&lt;image src=&quot;http://ois2zrmyi.bkt.clouddn.com/xcode1.jpeg&quot; /&gt;
+
+&lt;h3 id=&quot;三调试&quot;&gt;三、调试&lt;/h3&gt;
+
+&lt;p&gt;聚焦到模拟器上&lt;/p&gt;
+
+&lt;p&gt;选择左上角 &lt;code class=&quot;highlighter-rouge&quot;&gt;Hardware/Shake Gesture&lt;/code&gt; 此时会在模拟器上呼出调试面板&lt;/p&gt;
+
+&lt;image src=&quot;http://ois2zrmyi.bkt.clouddn.com/xcode2.jpeg&quot; /&gt;
+
+&lt;image width=&quot;300px&quot; src=&quot;http://ois2zrmyi.bkt.clouddn.com/xcode3.jpeg&quot; /&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;点击 &lt;strong&gt;Debug JS&lt;/strong&gt; 浏览器会自动打开 &lt;code class=&quot;highlighter-rouge&quot;&gt;http://localhost:8081/debugger-ui&lt;/code&gt; 页面，任何在react antive中的console即可在这个页面的控制台展示&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Enable Live Reload&lt;/strong&gt; 开启自动刷新页面功能，项目中保存后页面自动刷新&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;四模拟器基本操作快捷键&quot;&gt;四、模拟器基本操作快捷键&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cmd + r&lt;/code&gt;键刷新模拟器页面&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cmd + shift + h&lt;/code&gt; 回到主页（相当于真机按下home键）&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cmd + shift + h + h&lt;/code&gt; 快速点击两次 h （相当于双击home键）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;真机运行&quot;&gt;真机运行&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://idmsa.apple.com/IDMSWebAuth/login?appIdKey=891bd3417a7776362562d2197f89480a8547b108fd934911bcbea0110d07f757&amp;amp;path=%2Faccount%2F&amp;amp;rv=1&quot;&gt;注册开发者账号&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;双击打开工程目录下 &lt;code class=&quot;highlighter-rouge&quot;&gt;ios/AwesomeProject.xcodeproj&lt;/code&gt;文件启动xcode&lt;/li&gt;
+  &lt;li&gt;将手机连接到电脑，并在手机弹框上点击 &lt;strong&gt;信任&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;单击左侧栏工程名，打开控制面板，选择 &lt;code class=&quot;highlighter-rouge&quot;&gt;General&lt;/code&gt;下的 &lt;code class=&quot;highlighter-rouge&quot;&gt;Signing&lt;/code&gt;，勾选&lt;code class=&quot;highlighter-rouge&quot;&gt;Autimatically manage signing&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;在 &lt;code class=&quot;highlighter-rouge&quot;&gt;Team&lt;/code&gt; 选项中选择 &lt;code class=&quot;highlighter-rouge&quot;&gt;add an account&lt;/code&gt; 添加自己的开发者账号&lt;/li&gt;
+&lt;/ul&gt;
+&lt;image src=&quot;http://ois2zrmyi.bkt.clouddn.com/xcode4.jpeg&quot; /&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;在左上角黑色正方形旁边的设备中选择连接电脑的iphone名称，中间顶部状态栏会展示当前设备准备情况。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;image src=&quot;http://ois2zrmyi.bkt.clouddn.com/xcode5.jpeg&quot; /&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;当设备准备就绪后 点击黑色三角形或者按下&lt;code class=&quot;highlighter-rouge&quot;&gt;cmd + r&lt;/code&gt;键运行程序，随后手机上即可安装&lt;/li&gt;
+  &lt;li&gt;安装ok后点击图标启动app，如果弹出需要信任证书则进入 &lt;code class=&quot;highlighter-rouge&quot;&gt;系统设置-通用-设备管理&lt;/code&gt;中找到相关证书，点击验证即可*&lt;/li&gt;
+  &lt;li&gt;进入app界面后摇晃手机即可呼出开发者面板，即可选择&lt;strong&gt;自动刷新&lt;/strong&gt;或者 &lt;strong&gt;调试模式&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;温馨提示：摇晃手机记得拿稳&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;五真机运行-切换运行模式&quot;&gt;五、真机运行-切换运行模式&lt;/h3&gt;
+
+&lt;p&gt;运行模式分为&lt;strong&gt;debug&lt;/strong&gt; 和 &lt;strong&gt;release&lt;/strong&gt; 两种&lt;/p&gt;
+
+&lt;h5 id=&quot;debug即程序调试时候此时应用运行基于我们的未打包的js文件可实时修改预览&quot;&gt;debug即程序调试时候，此时应用运行基于我们的未打包的js文件，可实时修改预览&lt;/h5&gt;
+
+&lt;h5 id=&quot;release即发布xcode会自动打包js文件&quot;&gt;release即发布，xcode会自动打包js文件&lt;/h5&gt;
+
+&lt;p&gt;同时按下 &lt;code class=&quot;highlighter-rouge&quot;&gt;cmd + shift + ,&lt;/code&gt;三个键 唤起设置界面&lt;/p&gt;
+
+&lt;image src=&quot;http://ois2zrmyi.bkt.clouddn.com/xcode11.jpeg&quot; /&gt;
+
+&lt;h4 id=&quot;真机调试报错情况&quot;&gt;真机调试报错情况&lt;/h4&gt;
+
+&lt;h5 id=&quot;1-在运行release模式的时候-出现如下错误删除这个test文件再运行即可&quot;&gt;1. 在运行release模式的时候 出现如下错误，删除这个test文件再运行即可&lt;/h5&gt;
+
+&lt;image width=&quot;300px&quot; src=&quot;http://ois2zrmyi.bkt.clouddn.com/xcode8.jpeg&quot; /&gt;
+
+&lt;h5 id=&quot;2-运行debug时出现以下错误需要clean同时按下-shift--cmd--k-完成清除&quot;&gt;2. 运行debug时出现以下错误，需要clean，同时按下 &lt;code class=&quot;highlighter-rouge&quot;&gt;shift + cmd + k&lt;/code&gt; 完成清除&lt;/h5&gt;
+
+&lt;image width=&quot;300px&quot; src=&quot;http://ois2zrmyi.bkt.clouddn.com/xcode12.jpeg&quot; /&gt;
+
+&lt;h3 id=&quot;五修改iconappname和启动画面&quot;&gt;五、修改icon，appname和启动画面&lt;/h3&gt;
+
+&lt;h4 id=&quot;修改icon&quot;&gt;修改icon&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;appstore 搜索 &lt;strong&gt;Prepo&lt;/strong&gt; 下载安装&lt;/li&gt;
+  &lt;li&gt;启动&lt;strong&gt;Prepo&lt;/strong&gt; 将需要的图标（一张原图）拖放到软件中即可生成全部类型的icon，导出即可&lt;/li&gt;
+  &lt;li&gt;xcode中打开项目&lt;/li&gt;
+&lt;/ul&gt;
+&lt;image width=&quot;100%&quot; src=&quot;http://ois2zrmyi.bkt.clouddn.com/xcode6.jpeg&quot; /&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;将导出的icon拖到对应的地方，2x、3x表示倍数。大小为像素，例如第一个图标为 20x2=40像素 的图标&lt;/li&gt;
+  &lt;li&gt;重新运行项目即可看到图标
+ &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;修改appname&quot;&gt;修改appName&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;修改info.plist文件，新建名为 &lt;code class=&quot;highlighter-rouge&quot;&gt;Bundle display name&lt;/code&gt; 的key，值为 app的名字，这个值在发布 ipa包的时候需要&lt;/li&gt;
+  &lt;li&gt;修改 &lt;code class=&quot;highlighter-rouge&quot;&gt;Bundle name&lt;/code&gt; 值为 app的名字，在真机运行的时候需要&lt;/li&gt;
+&lt;/ul&gt;
+&lt;image width=&quot;100%&quot; src=&quot;http://ois2zrmyi.bkt.clouddn.com/xcode7.jpeg&quot; /&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;再次运行项目即可看到更新的应用名&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;修改app-transport-security-settings&quot;&gt;修改App Transport Security Settings&lt;/h4&gt;
+
+&lt;p&gt;添加方法参考上文  &lt;strong&gt;&lt;em&gt;修改appName&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;iOS 10 添加了https安全策略 为了继续使用 http 需要做以下修改&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;App Transport Security Settings 添加 Allow Arbitrary Loads 布尔值 YES
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;image width=&quot;100%&quot; src=&quot;http://ois2zrmyi.bkt.clouddn.com/xcode9.jpeg&quot; /&gt;
+
+&lt;h4 id=&quot;webview调用相机闪退&quot;&gt;WebView调用相机闪退&lt;/h4&gt;
+
+&lt;p&gt;在info.plist文件下添加如下key&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;相机权限
+
+&amp;lt;key&amp;gt;NSCameraUsageDescription&amp;lt;/key&amp;gt;
+
+&amp;lt;string&amp;gt;cameraDesciption&amp;lt;/string&amp;gt;	 
+
+相册权限
+
+&amp;lt;key&amp;gt;NSPhotoLibraryUsageDescription&amp;lt;/key&amp;gt;
+
+&amp;lt;string&amp;gt;photoLibraryDesciption&amp;lt;/string&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;image width=&quot;100%&quot; src=&quot;http://ois2zrmyi.bkt.clouddn.com/xcode10.jpeg&quot; /&gt;</content><summary type="html">一、搭建环境
+参考地址-中文</summary></entry></feed>
