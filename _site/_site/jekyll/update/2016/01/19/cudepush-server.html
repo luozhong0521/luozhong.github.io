@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>react native codepush之搭建自己的更新服务器</title>
+  <meta name="description" content="参考文章-code-push-server">
+
+  <link rel="stylesheet" href="/assets/main.css">
+  <link rel="canonical" href="http://localhost:4000/jekyll/update/2016/01/19/cudepush-server.html">
+  <link rel="alternate" type="application/rss+xml" title="luozhong&#39;s blog" href="/feed.xml">
+  
+  
+</head>
+
+
+  <body>
+
+    <header class="site-header" role="banner">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">luozhong&#39;s blog</a>
+
+    <nav class="site-nav">
+      <span class="menu-icon">
+        <svg viewBox="0 0 18 15" width="18px" height="15px">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </span>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">react native codepush之搭建自己的更新服务器</h1>
+    <p class="post-meta"><time datetime="2016-01-19T11:36:34+08:00" itemprop="datePublished">Jan 19, 2016</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p><a href="https://github.com/lisong/code-push-server">参考文章-code-push-server</a></p>
+
+<p>感谢上文作者的辛苦付出</p>
+
+<p>本文简历在已经成功运行 微软 codepush热更新，并且了解codepush 相关指令的基础上。</p>
+
+<p><a href="http://www.jianshu.com/p/19f23d66286f">参考文章-iOS</a></p>
+
+<p><a href="http://www.jianshu.com/p/eafe0136d3a3">参考文章-android</a></p>
+
+<h4 id="简介">简介</h4>
+<p>code-push-server是一个开源项目，基于 nodejs + mysql 搭建自己的热更新服务器</p>
+
+<h4 id="环境">环境</h4>
+
+<p>macOS Sierra 10.12.1</p>
+
+<p>nodejs v4.3.1</p>
+
+<p>mysql 5.6</p>
+
+<h4 id="一安装mysql其他环境自行对应mysql安装">一、安装mysql（其他环境自行对应mysql安装）</h4>
+
+<p>推荐安装 <code class="highlighter-rouge">mysql 5.6</code></p>
+
+<p><a href="http://dev.mysql.com/downloads/mysql/5.6.html#downloads">mysql 5.6下载地址</a></p>
+
+<p>一键安装 毫无压力</p>
+
+<h5 id="设置mysql密码">设置mysql密码</h5>
+
+<p>进入mysql安装目录，命令分步执行</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>cd /usr/local/mysql/bin
+
+./mysql -u root -p  //这一步是登录root用户 回车即可，5.6默人密码为空
+
+修改密码
+
+set password = password('输入你的新密码');  //引号不能省略
+</code></pre>
+</div>
+
+<h5 id="启动mysql服务">启动mysql服务</h5>
+
+<p>打开 系统设置，在面板下会出现一个mysql的图标，点击进入并启动即可。</p>
+
+<image src="http://ok0ekjrod.bkt.clouddn.com/mysql.jpeg"></image>
+
+<h4 id="二本地安装code-push-serve">二、本地安装code-push-serve</h4>
+
+<p>作者发布了两种安装方式（npm安装或源码安装），在此我推荐使用源码安装，因为后期我们要基于这个服务修改自己的网页，源码安装方便些。</p>
+
+<p>首先进入项目准备安装的目录执行以下命令（如果没有安装git 则可以去git上download下来解压）</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git clone https://github.com/lisong/code-push-server.git
+</code></pre>
+</div>
+
+<p>clone完毕后执行</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>cd code-push-server &amp;&amp; npm install
+</code></pre>
+</div>
+
+<p>修改<code class="highlighter-rouge">config/config.js</code> 文件，在 <strong>db</strong> 对象中添加数据库信息，参考如下配置，对应自己的用户名密码，数据库名称</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>db: {
+    username: "root",	//
+    password: "123456",
+    database: "codepush",
+    host: "127.0.0.1",
+    port: 3306,
+    dialect: "mysql"
+  }
+</code></pre>
+</div>
+
+<p>初始化服务，项目根目录（code-push-server）下执行命令</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>./bin/db init --dbhost localhost --dbuser root --dbpassword #初始化mysql数据库
+</code></pre>
+</div>
+
+<p>上述无报错即可进行下一步</p>
+
+<h4 id="三配置服务器-存储在本地">三、配置服务器-存储在本地</h4>
+
+<p>修改<code class="highlighter-rouge">config/config.js</code></p>
+
+<p>将 <strong>common</strong> 对象中的 <strong>storageType</strong>改为 <strong>local</strong></p>
+
+<p>新建文件存储目录 <code class="highlighter-rouge">data</code>，<code class="highlighter-rouge">storage</code>，并修改配置文件</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>local: {
+    //此地址为以上新建的文件夹，自己对应自己的路径
+    storageDir: "/Users/luozhong/work/reactNative/server/storage",
+    //ip地址改成自己设备对应的ip 这是下载地址 
+    downloadUrl: "http://192.168.201.113:3000/download"
+  }
+  
+ common: {
+ 		//此地址为以上新建的文件夹，自己对应自己的路径
+    dataDir: "/Users/luozhong/work/reactNative/server/data",
+    storageType: "local"	//选择存储类型，目前支持local和qiniu配置
+  }
+</code></pre>
+</div>
+
+<p>启动服务</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>./bin/www	//无报错信息即为正常启动，可以在浏览器中输入 http://127.0.0.1:3000查看，默认用户名密码是 admin 123456
+</code></pre>
+</div>
+
+<h4 id="四项目与服务建立链接">四、项目与服务建立链接</h4>
+
+<p>进入reactnative 项目根目录执行命令查看当前是否登录，因为是新服务，所以要先保证没有别的账号正在登录</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code> code-push whoami
+</code></pre>
+</div>
+
+<p>如果报错如下，表示没有登录</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[Error]  You are not currently logged in. Run the 'code-push login' command to authenticate with the CodePush server.
+</code></pre>
+</div>
+
+<p>如果没有报错 并且显示邮箱账号，则表示已经登录账户，则我们要先注销当前账号</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>code-push logout
+</code></pre>
+</div>
+
+<p>成功注销后执行登录指令，浏览器会自动打开本地服务登录页面，命令行中会提示输入key</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>code-push login http://localhost:3000
+</code></pre>
+</div>
+
+<p>输入账号和密码 <code class="highlighter-rouge">admin</code> <code class="highlighter-rouge">123456</code> 登录后点击按钮 <code class="highlighter-rouge">获取token</code> 并复制token到命令行中，并回车确认</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Successfully logged-in. //提示此表示登录成功
+</code></pre>
+</div>
+
+<p>至此我们已经将codepush和我们自建的服务器关联起来了.</p>
+
+<h4 id="五注册应用">五、注册应用</h4>
+
+<p>项目根目录下执行</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>code-push app add Trip-ios	//项目名+iOS/android后缀
+</code></pre>
+</div>
+
+<h4 id="六项目中修改对应的key">六、项目中修改对应的key</h4>
+
+<p>查看key</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>code-push deployment ls Trip-ios
+</code></pre>
+</div>
+
+<p>将<code class="highlighter-rouge">Staging </code>值修改到对应的iOS或安卓项目中并重新打包安装</p>
+
+<h4 id="七发布更新">七、发布更新</h4>
+
+<p>进入项目根目录执行以下命令，表示打包并发布，默认发布在开发环境</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code> code-push release-react Trip-ios ios
+</code></pre>
+</div>
+
+<p>成功后即可打开app验证。</p>
+
+
+  </div>
+
+  
+</article>
+
+      </div>
+    </main>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">luozhong&#39;s blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>
+            
+              luozhong&#39;s blog
+            
+            </li>
+            
+            <li><a href="mailto:luozhong0521@163.com">luozhong0521@163.com</a></li>
+            
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>...
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
